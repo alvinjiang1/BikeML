@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Bike User</title>
+</head>
+<body>
+    <h2>Enter the following details:</h2>
+    <section>                
+        <form action="/submit" id= "predictionForm" method="post">
+            <h2>Required</h2>
+            <!-- Temperature Input-->
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" id="temperature" name="temperature" placeholder="Enter temperature in °C" required>
+
+            <!-- Time Input -->
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required><br><br>
+
+            <!-- Date Input-->
+            <label for="dateField">Select a date:</label>
+            <input type="date" id="dateField" name="dateField">
+            
+            <h2>Optional</h2>
+            <!-- Weather Selection -->
+            <label for="weather">Weather:</label>
+            <select id="weather" name="weather" required>
+                <option value="weather1.1">Sunny</option>
+                <option value="weather1.2">Few Clouds or Partly Cloudy</option>
+                <option value="weather2">Misty and Cloudy</option>            
+                <option value="weather3.2">Light Rain and Cloudy</option>
+                <option value="weather4">Thunderstorm</option>
+            </select><br><br>
+    
+            <!-- Humidity Input -->
+            <label for="humidity">Humidity (%):</label>
+            <input type="number" id="humidity" name="humidity" min="0" max="100" required><br><br>
+    
+            <!-- Windspeed Input -->
+            <label for="windspeed">Windspeed (km/h):</label>
+            <input type="number" id="windspeed" name="windspeed" min="0" required><br><br>
+            <input type="submit" value="Submit">
+        </form>
+        
+    </section>
+
+    <section>
+        <h2>Your predicted Bike Demand:</h2>
+        <!-- The circle to display the prediction -->
+        <div id="predictionCircle" class="circle">No prediction</div>
+
+        <!-- Styling for the circle -->
+        <style>
+        .circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid black;
+            text-align: center;
+        }
+        </style>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log("jQuery loaded");
+
+            $('#predictionForm').on('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        $('#predictionCircle').text(data.prediction);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+   
+</body>
+</html>
