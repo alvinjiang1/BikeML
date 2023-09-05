@@ -20,12 +20,13 @@
 
             <!-- Date Input-->
             <label for="dateField">Select a date:</label>
-            <input type="date" id="dateField" name="dateField">
+            <input type="date" id="dateField" name="dateField" required>
             
             <h2>Optional</h2>
             <!-- Weather Selection -->
             <label for="weather">Weather:</label>
-            <select id="weather" name="weather" required>
+            <select id="weather" name="weather">
+                <option value="" selected>None</option>
                 <option value="weather1.1">Sunny</option>
                 <option value="weather1.2">Few Clouds or Partly Cloudy</option>
                 <option value="weather2">Misty and Cloudy</option>            
@@ -35,11 +36,11 @@
     
             <!-- Humidity Input -->
             <label for="humidity">Humidity (%):</label>
-            <input type="number" id="humidity" name="humidity" min="0" max="100" required><br><br>
+            <input type="number" id="humidity" name="humidity" min="0" max="100"><br><br>
     
             <!-- Windspeed Input -->
             <label for="windspeed">Windspeed (km/h):</label>
-            <input type="number" id="windspeed" name="windspeed" min="0" required><br><br>
+            <input type="number" id="windspeed" name="windspeed" min="0" ><br><br>
             <input type="submit" value="Submit">
         </form>
         
