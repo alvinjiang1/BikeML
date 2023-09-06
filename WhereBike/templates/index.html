@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where Bike</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Where Bike</h2>
-    <h3>Your favourite Bike Sharing Demand Forecaster</h3>
-    <h2>Choose your role:</h2>
-    <a href="/vendor.html" class="button">Vendor</a>
-    <a href="/user.html" class="button">User</a>
+    <header>
+        <h2>Where Bike</h2>
+        <h4>Your favourite Bike Sharing Demand Forecaster</h3>
+        <h3 id="role_choose">Choose your role:</h2>
+    </header>    
+    <div class="button_container">
+        <a href="/vendor.html" class="button" id="vendor_button">Vendor</a>
+        <a href="/user.html" class="button"id="user_button">User</a>
+    </div>    
 </body>
 </html>

@@ -79,5 +79,9 @@ def vendor():
 def user():
     return render_template('user.html')
 
+@app.route('/testpath')
+def testpath():
+    return url_for('static', filename='images/home.jpg')
+
 if __name__ == '__main__':
     app.run(debug=True)

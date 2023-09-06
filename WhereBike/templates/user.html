@@ -4,67 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where Bike User</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_user.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <h2>Enter the following details:</h2>
-    <section>                
-        <form action="/submit" id= "predictionForm" method="post">
-            <h2>Required</h2>
-            <!-- Temperature Input-->
-            <label for="temperature">Temperature (°C):</label>
-            <input type="number" id="temperature" name="temperature" placeholder="Enter temperature in °C" required>
+    <div class="user_profile">User</div>
+    <content>
+        <h2>Enter the following details:</h2>    
+        <section>                
+            <form action="/submit" id= "predictionForm" method="post">
+                <h3>Required</h3>
+                <div class="input_container">
+                    <!-- Temperature Input-->
+                    <div>
+                        <label for="temperature">Temperature (°C):</label>
+                        <input type="number" id="temperature" name="temperature" placeholder="Enter temperature" required>
+                    </div>
 
-            <!-- Time Input -->
-            <label for="time">Time:</label>
-            <input type="time" id="time" name="time" required><br><br>
-
-            <!-- Date Input-->
-            <label for="dateField">Select a date:</label>
-            <input type="date" id="dateField" name="dateField" required>
+                    <!-- Time Input -->
+                    <div>
+                        <label for="time">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    
+                    <!-- Date Input-->
+                    <div>
+                        <label for="dateField">Select a date:</label>
+                        <input type="date" id="dateField" name="dateField" required>
+                    </div>
+                </div>            
+                
+                <h3>Optional</h3>
+                <!-- Weather Selection -->
+                <div class="input_container">
+                    <div>
+                        <label for="weather">Weather:</label>
+                        <select id="weather" name="weather">
+                            <option value="" selected>None</option>
+                            <option value="weather1.1">Sunny</option>
+                            <option value="weather1.2">Few Clouds or Partly Cloudy</option>
+                            <option value="weather2">Misty and Cloudy</option>            
+                            <option value="weather3.2">Light Rain and Cloudy</option>
+                            <option value="weather4">Thunderstorm</option>
+                        </select>
+                    </div>
+                    <!-- Humidity Input -->
+                    <div>
+                        <label for="humidity">Humidity (%):</label>
+                        <input type="number" id="humidity" name="humidity" min="0" max="100">                    
+                    </div>
+                    <!-- Windspeed Input -->
+                    <div>
+                        <label for="windspeed">Windspeed (km/h):</label>
+                        <input type="number" id="windspeed" name="windspeed" min="0" ><br><br>                
+                    </div>
+                </div>     
+                <div class="submit_flex_container">
+                    <input type="submit" value="Submit" class="submit_button">
+                </div>            
+            </form>
             
-            <h2>Optional</h2>
-            <!-- Weather Selection -->
-            <label for="weather">Weather:</label>
-            <select id="weather" name="weather">
-                <option value="" selected>None</option>
-                <option value="weather1.1">Sunny</option>
-                <option value="weather1.2">Few Clouds or Partly Cloudy</option>
-                <option value="weather2">Misty and Cloudy</option>            
-                <option value="weather3.2">Light Rain and Cloudy</option>
-                <option value="weather4">Thunderstorm</option>
-            </select><br><br>
-    
-            <!-- Humidity Input -->
-            <label for="humidity">Humidity (%):</label>
-            <input type="number" id="humidity" name="humidity" min="0" max="100"><br><br>
-    
-            <!-- Windspeed Input -->
-            <label for="windspeed">Windspeed (km/h):</label>
-            <input type="number" id="windspeed" name="windspeed" min="0" ><br><br>
-            <input type="submit" value="Submit">
-        </form>
-        
-    </section>
+        </section>
 
-    <section>
-        <h2>Your predicted Bike Demand:</h2>
-        <!-- The circle to display the prediction -->
-        <div id="predictionCircle" class="circle">No prediction</div>
-
-        <!-- Styling for the circle -->
-        <style>
-        .circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid black;
-            text-align: center;
-        }
-        </style>
-    </section>
+        <section>
+            <h2 id="prediction_header">Your predicted Bike Demand:</h2>
+            <div class = "circle_container">
+                <!-- The circle to display the prediction -->        
+                <div id="predictionCircle" class="circle">NA</div>
+            </div>        
+        </section>
+    </content>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
