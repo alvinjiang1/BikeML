@@ -134,8 +134,18 @@
                                         responsive: true,
                                         maintainAspectRatio: false,
                                         scales: {
+                                            x: {
+                                                title : {
+                                                    display: true,
+                                                    title: "Time (24H)" 
+                                                }
+                                            },
                                             y: {
-                                                beginAtZero: true
+                                                beginAtZero: true,
+                                                title: {
+                                                    display: true,
+                                                    title: "Bike Rental Demand"
+                                                }
                                             }
                                         }
                                     }
