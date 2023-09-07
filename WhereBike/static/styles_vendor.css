@@ -1,0 +1,177 @@
+/* styles.css */
+body {   
+    background-image: url('images/vendor.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: "";  /* Mandatory for the pseudo-element to work */
+    position: fixed; /* Takes the pseudo-element out of the document flow */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;  /* These four lines ensure the pseudo-element covers the entire body */
+    background-color: rgba(255, 255, 255, 0.5); /* Here, white color with 50% opacity is used. Adjust as needed */
+    background-attachment: scroll;
+    z-index: -1; /* Sends the overlay behind the content of the body */
+}
+
+content {
+    position: relative;
+    top: 50px;
+}
+
+h2 {
+    color: #ADCECC;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Oxygen', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.4;
+}
+
+h3 {
+    color: #5A605E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Oxygen', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.4;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ADCECC;
+    padding: 15px 20px; 
+    width: 90%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    
+}
+
+.button {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: #5A605E;
+    font-weight: 400;
+    border-radius: 5px;
+    opacity: 0.9;
+    background: #ADCECC;
+    padding: 5px 80px;
+}
+
+.button_container {  
+    height:300px;  
+    display: flex;
+    justify-content: space-around; /* Spaced equally */
+    align-items: center;
+    flex-wrap: wrap; /* Allows the buttons to wrap to next line on smaller screens */
+    gap: 15px; /* Space between buttons */
+}
+
+label {
+    color: #ADCECC;
+    font-family: 'Oxygen', sans-serif;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.input_container {            
+    display: flex;
+    justify-content: space-evenly; /* Spaced equally */
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap; /* Allows the buttons to wrap to next line on smaller screens */
+    gap: 15px; /* Space between buttons */
+}
+
+.submit_flex_container {   
+    position: relative;
+    top:30px;    
+    height:30px;  
+    display: flex;
+    width:100%;  
+    justify-content: center;  
+    align-items: center;
+    flex-wrap: wrap; /* Allows the buttons to wrap to next line on smaller screens */        
+}
+
+.submit_button {
+    height:30px;
+    width: 150px;
+    background-color: #ADCECC;
+    border-radius: 5px;    
+}
+
+#prediction_header {
+    position: relative;
+    top:50px;
+}
+
+.circle_container {
+    position: relative;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {   
+    background-color: #ADCECC;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    font-size:50px;
+    text-align: center;
+    color: #5A605E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.user_profile {
+    font-family:'Oxygen', sans-serif;
+    font-size:20px;
+    position: relative;
+    top: 41px;
+    right:-80%;
+    background-color: #ADCECC;
+    color: #5A605E;
+    height: 30px;
+    width: 200px;
+    text-align:center;  
+    line-height:30px;  
+    border-radius:14px;
+    border: 2px solid black;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.chart_container {
+    display: flex;
+    position: relative;
+    top:50px;    
+    justify-content: center;
+    align-items: center;
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+    padding:20px;
+}
+
+canvas {
+    background-color: #ADCECC;
+}
+
+#graph_header {
+    position:relative;
+    top:50px;
+}

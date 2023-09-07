@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 from joblib import load
 import pandas as pd
-from helper import user_generate_df
+from helper import user_generate_df, vendor_generate_df, vendor_generate_24h_df
 import helper
 
 app = Flask(__name__)
@@ -15,8 +15,8 @@ no_lag_model = load('no_lag_rf.pkl')
 def index():
     return render_template('index.html')
 
-@app.route('/submit', methods=['POST'])
-def submit():
+@app.route('/submit_user', methods=['POST'])
+def submit_user():
     if request.method == 'POST':
         result_map = {}
         result_map["temperature"] = request.form['temperature']
@@ -27,10 +27,23 @@ def submit():
         result_map["date"] = request.form["dateField"]            
         print(result_map)
         # Call predictions
-        return predict(result_map)
+        return predict(result_map, True)
     
-def predict(args):
-    print(args)
+@app.route('/submit_vendor', methods=['POST'])
+def submit_vendor():
+    if request.method == 'POST':
+        result_map = {}
+        result_map["temperature"] = request.form['temperature']
+        result_map["time"] = request.form['time']
+        result_map["weather"] = request.form['weather']
+        result_map["humidity"] = request.form['humidity']
+        result_map["windspeed"] = request.form['windspeed']   
+        result_map["date"] = request.form["dateField"]   
+        result_map["cnt_lag_1"] = request.form["demand_lag_1"]
+        result_map["cnt_lag_2"] = request.form["demand_lag_2"]                 
+        return predict(result_map, False)
+    
+def predict(args, isUser):
     # Make predictions based on the data that was input   
 
     # Temperature: Normalize the temperature: (t-t_min)/(t_max-t_min), t_min=-8, t_max=+39 
@@ -58,17 +71,21 @@ def predict(args):
         args["windspeed"] = int(args["windspeed"]) / 67
 
     result = None
-    isUser = True
     # Use model to perform predictions
     if isUser:
         # Preprocess input
         processed_df = user_generate_df(args)
         result = no_lag_model.predict(processed_df)
+        predicted_demand = round(result[0])
+        return jsonify(prediction=predicted_demand)
     else:
+        processed_df = vendor_generate_df(args)
         result = model.predict(processed_df)
-    assert result != None
-    predicted_demand = round(result[0])
-    return jsonify(prediction=predicted_demand)
+        predicted_demand = round(result[0])        
+        # Also generate graph
+        processed_df["cnt"] = predicted_demand
+        new_labels, new_values = vendor_generate_24h_df(processed_df, model)   
+        return jsonify(prediction=predicted_demand, labels=new_labels, values=new_values)
 
     
 @app.route('/vendor.html')

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <content>
         <h2>Enter the following details:</h2>    
         <section>                
-            <form action="/submit" id= "predictionForm" method="post">
+            <form action="/submit_user" id= "predictionForm" method="post">
                 <h3>Required</h3>
                 <div class="input_container">
                     <!-- Temperature Input-->
@@ -59,7 +60,7 @@
                     <!-- Windspeed Input -->
                     <div>
                         <label for="windspeed">Windspeed (km/h):</label>
-                        <input type="number" id="windspeed" name="windspeed" min="0" ><br><br>                
+                        <input type="number" id="windspeed" name="windspeed" min="0" >            
                     </div>
                 </div>     
                 <div class="submit_flex_container">
@@ -78,7 +79,7 @@
         </section>
     </content>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script>
         $(document).ready(function() {
             console.log("jQuery loaded");

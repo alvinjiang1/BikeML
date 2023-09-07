@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Bike User</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_vendor.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="user_profile">Vendor</div>
+    <content>
+        <h2>Enter the following details:</h2>    
+        <section>                
+            <form action="/submit_vendor" id= "predictionForm" method="post">
+                <h3>Required</h3>
+                <div class="input_container">
+                    <!-- Temperature Input-->
+                    <div>
+                        <label for="temperature">Temperature (°C):</label>
+                        <input type="number" id="temperature" name="temperature" placeholder="Enter temperature" required>
+                    </div>
+
+                    <!-- Time Input -->
+                    <div>
+                        <label for="time">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>                    
+                    
+                    <!-- Date Input-->
+                    <div>
+                        <label for="dateField">Select a date:</label>
+                        <input type="date" id="dateField" name="dateField" required>
+                    </div>
+
+                    <!-- Demand 2h Ago Input-->
+                    <div>
+                        <label for="demand_lag_2">Demand (2h ago):</label>
+                        <input type="number" id="demand_lag_2" name="demand_lag_2" min="0" required></input>
+                    </div>
+
+                    <!-- Demand 1h Ago Input-->
+                    <div>
+                        <label for="demand_lag_1">Demand (1h ago):</label>
+                        <input type="number" id="demand_lag_1" name="demand_lag_1" min="0" required></input>
+                    </div>
+                </div>            
+                
+                <h3>Optional</h3>
+                <!-- Weather Selection -->
+                <div class="input_container">
+                    <div>
+                        <label for="weather">Weather:</label>
+                        <select id="weather" name="weather">
+                            <option value="" selected>None</option>
+                            <option value="weather1.1">Sunny</option>
+                            <option value="weather1.2">Few Clouds or Partly Cloudy</option>
+                            <option value="weather2">Misty and Cloudy</option>            
+                            <option value="weather3.2">Light Rain and Cloudy</option>
+                            <option value="weather4">Thunderstorm</option>
+                        </select>
+                    </div>
+                    <!-- Humidity Input -->
+                    <div>
+                        <label for="humidity">Humidity (%):</label>
+                        <input type="number" id="humidity" name="humidity" min="0" max="100">                    
+                    </div>
+                    <!-- Windspeed Input -->
+                    <div>
+                        <label for="windspeed">Windspeed (km/h):</label>
+                        <input type="number" id="windspeed" name="windspeed" min="0" >            
+                    </div>
+                </div>     
+                <div class="submit_flex_container">
+                    <input type="submit" value="Submit" class="submit_button">
+                </div>            
+            </form>
+            
+        </section>
+
+        <section>
+            <h2 id="prediction_header">Your predicted Bike Demand:</h2>
+            <div class = "circle_container">
+                <!-- The circle to display the prediction -->        
+                <div id="predictionCircle" class="circle">NA</div>
+            </div>        
+        </section>
+        <section>            
+            <h2 id="graph_header" style="display: none;">Forecasted Bike Demand for the Next 5h</h2>            
+            <div id="chart_container" class="chart_container" style="display: none;">                                
+                <canvas id="myChart" width=400px height=400px></canvas>                          
+            </div>
+        </section>
+    </content> 
+    <script>
+        var myChart;
+        $(document).ready(function() {
+            console.log("jQuery loaded");
+
+            $('#predictionForm').on('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        $('#predictionCircle').text(data.prediction);
+                        // Assuming data received has attributes: labels and values
+                        if (data.labels && data.values && data.labels.length > 0 && data.values.length > 0) {
+                            console.log("VALID")
+                            // If the chart doesn't exist, create it
+                            if (!myChart) {
+                                var ctx = $('#myChart')[0].getContext('2d');
+                                myChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.labels,
+                                        datasets: [{
+                                            label: 'Demand for Bike Rentals',
+                                            data: data.values,
+                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            borderWidth: 2
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                });
+                            } else { // If it exists, just update it
+                                console.log(data.labels)
+                                console.log(data.values)
+                                myChart.data.labels = data.labels;
+                                myChart.data.datasets[0].data = data.values;
+                                myChart.update();
+                            }
+
+                            // Display the chart container (if it's hidden)
+                            console.log("show")
+                            $('#graph_header').show();
+                            $('#chart_container').show();
+                        }
+                        console.log(data)
+                        console.log("ERRORs")
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+ 
+   
+</body>
+</html>

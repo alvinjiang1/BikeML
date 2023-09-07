@@ -8,7 +8,7 @@ MEAN_WINDSPEED = 0.190098
 # Weather: Mode = 1 (Clear)
 MODE_WEATHER = 1
 
-
+# Only used in vendor_generate_24h_features
 features = ['yr',
  'hr',
  'holiday',
@@ -118,3 +118,32 @@ def user_generate_df(df):
         else:
             result["weathersit_" + str(i)] = 0    
     return result
+
+def vendor_generate_df(df):
+    cnt_lag_1 = df["cnt_lag_1"]
+    cnt_lag_2 = df["cnt_lag_2"]
+    del df["cnt_lag_1"], df["cnt_lag_2"]
+    result = user_generate_df(df)    
+    # Attach lag variables to generated df
+    result["cnt_lag_1"] = cnt_lag_1
+    result["cnt_lag_2"] = cnt_lag_2
+    return result
+
+def vendor_generate_24h_df(df, model):
+    start_hour = df['hr'].iloc[0]
+    labels = [start_hour]
+    values = [int(df["cnt"].iloc[0])]
+    row = df
+    for i in range(1, 6):
+        new_hour = (start_hour + i) % 24  # This will loop the hour back to 0 after 23    
+        labels.append(new_hour)            
+        new_cnt_lag_1 = row["cnt"]
+        new_cnt_lag_2 = row["cnt_lag_1"]
+        row["hr"] = new_hour
+        row["cnt_lag_1"] = new_cnt_lag_1
+        row["cnt_lag_2"] = new_cnt_lag_2
+        new_cnt = model.predict(row[features])
+        new_cnt = round(new_cnt[0])
+        values.append(new_cnt)
+        row["cnt"] = new_cnt
+    return labels, values
